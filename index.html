@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Henrique Station</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================
+     TELA DE LOGIN / CADASTRO
+============================================ -->
+<div id="telaAuth">
+  <div class="fundo-brilho"></div>
+  <div class="card">
+    <h1><span>HENRIQUE</span> STATION</h1>
+    <p class="sub" id="subtitulo">Crie sua conta</p>
+
+    <form id="formAuth">
+      <div class="campo">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="seu@email.com" required>
+      </div>
+
+      <div class="campo">
+        <label>Senha</label>
+        <div class="campo-senha">
+          <input type="password" id="senha" placeholder="mínimo 6 caracteres" required minlength="6">
+          <button type="button" class="olho" id="btnOlho" title="Mostrar senha">
+            <svg id="svgOlhoAberto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg id="svgOlhoRiscado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="principal" id="btnEnviar">Cadastrar</button>
+    </form>
+
+    <div class="toggle">
+      <span id="txtToggle">Já tem conta?</span>
+      <a id="btnToggle">Entrar</a>
+    </div>
+
+    <div class="msg" id="msg"></div>
+  </div>
+</div>
+
+<!-- ============================================
+     PAINEL
+============================================ -->
+<div id="telaPainel">
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="marca">
+        <h1><span>HENRIQUE</span> STATION</h1>
+      </div>
+      <nav class="menu">
+        <div class="aba ativa" data-aba="produtos" onclick="trocarAba('produtos')">
+          <span class="aba-icone">📦</span>
+          <span>Produtos</span>
+        </div>
+        <div class="aba" data-aba="anotacoes" onclick="trocarAba('anotacoes')">
+          <span class="aba-icone">📝</span>
+          <span>Anotações</span>
+        </div>
+        <div class="aba" data-aba="faturamento" onclick="trocarAba('faturamento')">
+          <span class="aba-icone">💰</span>
+          <span>Faturamento</span>
+        </div>
+        <div class="aba" data-aba="compras" onclick="trocarAba('compras')">
+          <span class="aba-icone">🛒</span>
+          <span>Compras</span>
+        </div>
+      </nav>
+      <div class="rodape">
+        <div class="user-info">
+          <div class="avatar">👤</div>
+          <div class="user-txt">
+            <span class="user-label">Conectado</span>
+            <span id="emailUser">...</span>
+          </div>
+        </div>
+        <button id="btnSair">Sair</button>
+      </div>
+    </aside>
+
+    <main class="conteudo">
+
+      <!-- ===== ABA PRODUTOS ===== -->
+      <section id="aba-produtos" class="conteudo-aba ativa">
+        <header class="topo">
+          <h2>Produtos</h2>
+          <p class="descricao">Gerencie suas categorias e estoque</p>
+        </header>
+
+        <div class="form-categoria">
+          <input type="text" id="novaCategoria" placeholder="Nome da nova categoria...">
+          <button class="acao" id="btnCriarCategoria">+ Criar Categoria</button>
+        </div>
+
+        <div id="listaCategorias">
+          <p class="carregando">Carregando...</p>
+        </div>
+      </section>
+
+      <!-- ===== ABA ANOTAÇÕES ===== -->
+      <section id="aba-anotacoes" class="conteudo-aba">
+        <header class="topo">
+          <h2>Anotações</h2>
+          <p class="descricao">Registre os serviços que você pega</p>
+        </header>
+
+        <div class="form-anotacao">
+          <input type="text" id="anotDescricao" placeholder="Descrição do serviço *" required>
+          <input type="text" id="anotCliente" placeholder="Nome do cliente (opcional)">
+          <div class="form-datas">
+            <div class="campo-data">
+              <label>Recebido</label>
+              <input type="text" id="anotDataInicio" placeholder="dd/mm/aaaa" maxlength="10" inputmode="numeric" oninput="mascaraData(this)">
+            </div>
+            <div class="campo-data">
+              <label>Entrega</label>
+              <input type="text" id="anotDataEntrega" placeholder="dd/mm/aaaa" maxlength="10" inputmode="numeric" oninput="mascaraData(this)">
+            </div>
+            <div class="campo-data">
+              <label>Valor R$</label>
+              <input type="number" id="anotValor" placeholder="0,00" step="0.01" min="0">
+            </div>
+          </div>
+          <button class="acao" id="btnAddAnotacao">+ Adicionar Anotação</button>
+        </div>
+
+        <div id="listaAnotacoes">
+          <p class="carregando">Carregando...</p>
+        </div>
+      </section>
+
+      <!-- ===== ABA FATURAMENTO ===== -->
+      <section id="aba-faturamento" class="conteudo-aba">
+        <header class="topo">
+          <h2>Faturamento</h2>
+          <p class="descricao">Anote o que ganhou em cada dia do mês</p>
+        </header>
+
+        <div class="form-categoria">
+          <div class="campo-data" style="flex:1; min-width:200px;">
+            <label>Mês</label>
+            <input type="month" id="fatMes" required>
+          </div>
+          <button class="acao" id="btnCriarMes">+ Novo Mês</button>
+        </div>
+
+        <div id="listaMeses">
+          <p class="carregando">Carregando...</p>
+        </div>
+      </section>
+
+      <!-- ===== ABA COMPRAS ===== -->
+      <section id="aba-compras" class="conteudo-aba">
+        <header class="topo">
+          <h2>Compras</h2>
+          <p class="descricao">Produtos zerados que precisam ser repostos</p>
+        </header>
+
+        <div class="compras-resumo" id="comprasResumo"></div>
+
+        <div class="form-compra-novo" id="formCompraNovo">
+          <div class="form-compra-header">
+            <span class="icone">+</span>
+            <span>Adicionar produto novo</span>
+          </div>
+
+          <div class="form-compra-linha">
+            <input type="text" id="compraNome" placeholder="Nome do produto" style="flex:2;">
+            <select id="compraCategoria"></select>
+            <input type="number" id="compraQtd" placeholder="Qtd" min="1" step="1" style="max-width:90px;">
+            <input type="number" id="compraValor" placeholder="R$ compra" min="0" step="0.01" style="max-width:120px;">
+            <button class="acao" id="btnAddCompraManual">+ Adicionar</button>
+          </div>
+
+          <div class="aviso-categoria" id="avisoCategoria" style="display:none;">
+            ⚠ Nenhuma categoria criada ainda. Vá em <strong>Produtos</strong> e crie uma primeiro.
+          </div>
+        </div>
+
+        <div id="listaCompras">
+          <p class="carregando">Carregando...</p>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+</div>
+
+<!-- ============================================
+     MODAL DE EDIÇÃO DE ANOTAÇÃO
+============================================ -->
+<div id="modalEditar" class="modal-fundo">
+  <div class="modal-card">
+    <h3>Editar Anotação</h3>
+
+    <label>Descrição</label>
+    <input type="text" id="editDescricao">
+
+    <label>Cliente</label>
+    <input type="text" id="editCliente" placeholder="Opcional">
+
+    <div class="form-datas">
+      <div class="campo-data">
+        <label>Recebido</label>
+        <input type="text" id="editDataInicio" placeholder="dd/mm/aaaa" maxlength="10" inputmode="numeric" oninput="mascaraData(this)">
+      </div>
+      <div class="campo-data">
+        <label>Entrega</label>
+        <input type="text" id="editDataEntrega" placeholder="dd/mm/aaaa" maxlength="10" inputmode="numeric" oninput="mascaraData(this)">
+      </div>
+      <div class="campo-data">
+        <label>Valor R$</label>
+        <input type="number" id="editValor" step="0.01" min="0">
+      </div>
+    </div>
+
+    <div class="modal-botoes">
+      <button class="secundario" onclick="fecharModal()">Cancelar</button>
+      <button class="acao" onclick="salvarEdicao()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     MODAL DE EDIÇÃO DE PRODUTO
+============================================ -->
+<div id="modalEditarProduto" class="modal-fundo">
+  <div class="modal-card">
+    <h3>Editar Produto</h3>
+
+    <label>Nome do produto</label>
+    <input type="text" id="editProdNome">
+
+    <label>Preço de venda (R$)</label>
+    <input type="number" id="editProdPreco" step="0.01" min="0">
+
+    <div class="modal-botoes">
+      <button class="secundario" onclick="fecharModalProduto()">Cancelar</button>
+      <button class="acao" onclick="salvarEdicaoProduto()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
